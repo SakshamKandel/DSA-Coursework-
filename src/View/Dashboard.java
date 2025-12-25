@@ -6,6 +6,8 @@ package View;
 
 import Model.GroceryItem;
 import Controller.GroceryController;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
 /**
  *
  * @author Acer
@@ -95,6 +97,11 @@ public class Dashboard extends javax.swing.JFrame {
         jScrollPane1.setViewportView(jTable1);
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowActivated(java.awt.event.WindowEvent evt) {
+                formWindowActivated(evt);
+            }
+        });
 
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
 
@@ -388,7 +395,7 @@ public class Dashboard extends javax.swing.JFrame {
                 || txtCategory.getText().trim().isEmpty()
                 || txtQuantity.getText().trim().isEmpty()
                 || txtPrice.getText().trim().isEmpty()) {
-                javax.swing.JOptionPane.showMessageDialog(this, "Please fill in all fields.", "Validation Error", javax.swing.JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(this, "Please fill in all fields.", "Validation Error", JOptionPane.ERROR_MESSAGE);
                 return; // Stop execution
             }
 
@@ -410,17 +417,17 @@ public class Dashboard extends javax.swing.JFrame {
             loadTableData();
 
             // --- SUCCESS FEEDBACK ---
-            javax.swing.JOptionPane.showMessageDialog(this, "Item Added Successfully!");
+            JOptionPane.showMessageDialog(this, "Item Added Successfully!");
 
             // Clear the form for the next entry
             clearFields();
 
         } catch (NumberFormatException e) {
             // Requirement: Handle invalid number formats (e.g., "abc" in Price)
-            javax.swing.JOptionPane.showMessageDialog(this, "ID, Quantity, and Price must be valid numbers.", "Input Error", javax.swing.JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(this, "ID, Quantity, and Price must be valid numbers.", "Input Error", JOptionPane.ERROR_MESSAGE);
         } catch (IllegalArgumentException e) {
             // Requirement: Catch duplicate IDs/Names or negative numbers from Model/Controller
-            javax.swing.JOptionPane.showMessageDialog(this, e.getMessage(), "Error", javax.swing.JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(this, e.getMessage(), "Error",JOptionPane.ERROR_MESSAGE);
         }
     }//GEN-LAST:event_jButton1ActionPerformed
 
@@ -452,13 +459,13 @@ public class Dashboard extends javax.swing.JFrame {
             controller.updateItem(updatedItem);
             
             loadTableData(); // Refresh table
-            javax.swing.JOptionPane.showMessageDialog(this, "Item Updated Successfully!");
+           JOptionPane.showMessageDialog(this, "Item Updated Successfully!");
             clearFields();
 
         } catch (NumberFormatException e) {
-            javax.swing.JOptionPane.showMessageDialog(this, "Please check your inputs.", "Input Error", javax.swing.JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(this, "Please check your inputs.", "Input Error", JOptionPane.ERROR_MESSAGE);
         } catch (IllegalArgumentException e) {
-            javax.swing.JOptionPane.showMessageDialog(this, e.getMessage(), "Error", javax.swing.JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(this, e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
         }
     }//GEN-LAST:event_UpdateActionPerformed
 
@@ -475,26 +482,30 @@ public class Dashboard extends javax.swing.JFrame {
             else if (!txtItemId.getText().isEmpty()) {
                 id = Integer.parseInt(txtItemId.getText().trim());
             } else {
-                javax.swing.JOptionPane.showMessageDialog(this, "Please select a row or enter an ID to delete.", "Warning", javax.swing.JOptionPane.WARNING_MESSAGE);
+                JOptionPane.showMessageDialog(this, "Please select a row or enter an ID to delete.", "Warning",JOptionPane.WARNING_MESSAGE);
                 return;
             }
 
-            int confirm = javax.swing.JOptionPane.showConfirmDialog(this, "Are you sure you want to delete ID: " + id + "?", "Confirm Delete", javax.swing.JOptionPane.YES_NO_OPTION);
-            if (confirm == javax.swing.JOptionPane.YES_OPTION) {
+            int confirm = JOptionPane.showConfirmDialog(this, "Are you sure you want to delete ID: " + id + "?", "Confirm Delete",JOptionPane.YES_NO_OPTION);
+            if (confirm == JOptionPane.YES_OPTION) {
                 controller.deleteItem(id);
                 loadTableData();
-                javax.swing.JOptionPane.showMessageDialog(this, "Item Deleted.");
+                JOptionPane.showMessageDialog(this, "Item Deleted.");
                 clearFields();
             }
 
         } catch (Exception e) {
-            javax.swing.JOptionPane.showMessageDialog(this, "Error: " + e.getMessage(), "Error", javax.swing.JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(this, "Error: " + e.getMessage(), "Error",JOptionPane.ERROR_MESSAGE);
         }
     }//GEN-LAST:event_Update2ActionPerformed
 
     private void Update1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Update1ActionPerformed
         clearFields();
     }//GEN-LAST:event_Update1ActionPerformed
+
+    private void formWindowActivated(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowActivated
+    loadTableData();    // TODO add your handling code here:
+    }//GEN-LAST:event_formWindowActivated
     
     // ==================== HELPER METHODS ====================
     
@@ -502,7 +513,7 @@ public class Dashboard extends javax.swing.JFrame {
      * Helper to refresh the JTable data from the controller.
      */
     private void loadTableData() {
-        javax.swing.table.DefaultTableModel model = (javax.swing.table.DefaultTableModel) jTable2.getModel();
+        DefaultTableModel model = (DefaultTableModel) jTable2.getModel();
         model.setRowCount(0); // Clear old data
         
         for (GroceryItem item : controller.getAllItems()) {
@@ -534,7 +545,7 @@ public class Dashboard extends javax.swing.JFrame {
     private void jTable2MouseClicked(java.awt.event.MouseEvent evt) {
         int selectedRow = jTable2.getSelectedRow();
         if (selectedRow != -1) {
-            javax.swing.table.DefaultTableModel model = (javax.swing.table.DefaultTableModel) jTable2.getModel();
+            DefaultTableModel model = (DefaultTableModel) jTable2.getModel();
             
             txtItemId.setText(model.getValueAt(selectedRow, 0).toString());
             txtName.setText(model.getValueAt(selectedRow, 1).toString());

@@ -40,12 +40,7 @@ public class GroceryController {
         itemList.add(new GroceryItem(105, "Chicken", "Meat", 10, 5.50));
     }
 
-    /**
-     * Validates and adds a new item to the list.
-     * @param newItem The GroceryItem object to add.
-     * @return true if added successfully.
-     * @throws IllegalArgumentException if validation fails (e.g., duplicate ID).
-     */
+    
     public boolean addItem(GroceryItem newItem) {
         
         // 1. Check for Duplicate ID (Coursework Requirement)
