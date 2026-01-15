@@ -184,12 +184,6 @@ public class UserDashboard extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jScrollPane2)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
-                        .addComponent(Search, javax.swing.GroupLayout.PREFERRED_SIZE, 226, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jButton4, javax.swing.GroupLayout.DEFAULT_SIZE, 430, Short.MAX_VALUE))
                     .addGroup(jPanel3Layout.createSequentialGroup()
                         .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel3Layout.createSequentialGroup()
@@ -199,7 +193,13 @@ public class UserDashboard extends javax.swing.JFrame {
                                 .addGap(6, 6, 6)
                                 .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(18, 18, 18)
-                                .addComponent(jButton5, javax.swing.GroupLayout.PREFERRED_SIZE, 175, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addComponent(jButton5, javax.swing.GroupLayout.PREFERRED_SIZE, 175, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(jPanel3Layout.createSequentialGroup()
+                                .addComponent(Search, javax.swing.GroupLayout.PREFERRED_SIZE, 226, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 430, javax.swing.GroupLayout.PREFERRED_SIZE)))
                         .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
@@ -354,11 +354,42 @@ public class UserDashboard extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void SearchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SearchActionPerformed
-
+        // Search functionality - uses Binary Search for ID, Linear Search for Name
+        String searchTerm = Search.getText().trim();
+        
+        if (searchTerm.isEmpty() || searchTerm.equals("Search                                                >")) {
+            loadTableData(); // Reset to show all
+            return;
+        }
+        
+        // Try as ID first (Binary Search)
+        try {
+            int searchId = Integer.parseInt(searchTerm);
+            GroceryItem found = controller.binarySearchById(searchId);
+            
+            if (found != null) {
+                displaySingleItem(found);
+                JOptionPane.showMessageDialog(this, "Found using Binary Search!");
+            } else {
+                JOptionPane.showMessageDialog(this, "Item not found!", "Search Result", JOptionPane.INFORMATION_MESSAGE);
+            }
+        } catch (NumberFormatException e) {
+            // Not a number, use Linear Search for Name
+            java.util.ArrayList<GroceryItem> results = controller.linearSearchByNamePartial(searchTerm);
+            
+            if (!results.isEmpty()) {
+                displaySearchResults(results);
+                JOptionPane.showMessageDialog(this, "Found " + results.size() + " result(s) using Linear Search!");
+            } else {
+                JOptionPane.showMessageDialog(this, "No items found!", "Search Result", JOptionPane.INFORMATION_MESSAGE);
+            }
+        }
     }//GEN-LAST:event_SearchActionPerformed
 
     private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
-        // TODO add your handling code here:
+        // Logout - close dashboard and go back to login
+        new LoginPage().setVisible(true);
+        this.dispose();
     }//GEN-LAST:event_jButton6ActionPerformed
     
     // ==================== HELPER METHODS ====================
@@ -388,6 +419,38 @@ public class UserDashboard extends javax.swing.JFrame {
     private void jTable2MouseClicked(java.awt.event.MouseEvent evt) {
         // Row is already selected by default click behavior
         // Used for Buy button to know which item is selected
+    }
+    
+    // Helper to display a single item in the table (for search results)
+    private void displaySingleItem(GroceryItem item) {
+        DefaultTableModel model = (DefaultTableModel) jTable2.getModel();
+        model.setRowCount(0);
+        
+        Object[] row = {
+            item.getItemId(),
+            item.getName(),
+            item.getCategory(),
+            item.getQuantity(),
+            item.getPrice()
+        };
+        model.addRow(row);
+    }
+    
+    // Helper to display multiple search results
+    private void displaySearchResults(java.util.ArrayList<GroceryItem> results) {
+        DefaultTableModel model = (DefaultTableModel) jTable2.getModel();
+        model.setRowCount(0);
+        
+        for (GroceryItem item : results) {
+            Object[] row = {
+                item.getItemId(),
+                item.getName(),
+                item.getCategory(),
+                item.getQuantity(),
+                item.getPrice()
+            };
+            model.addRow(row);
+        }
     }
     
     // Load recently purchased items from History Stack into jTable3
