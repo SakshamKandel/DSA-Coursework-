@@ -38,12 +38,14 @@ public class AdminDashboard extends javax.swing.JFrame {
         });
         
         // Add tab change listener to load data when switching tabs
-        jTabbedPane1.addChangeListener(e -> {
-            int selectedIndex = jTabbedPane1.getSelectedIndex();
-            if (selectedIndex == 2) { // Recently Added tab
-                loadRecentlyAddedTable();
-            } else if (selectedIndex == 3) { // History tab
-                loadHistoryTable();
+        jTabbedPane1.addChangeListener(new javax.swing.event.ChangeListener() {
+            public void stateChanged(javax.swing.event.ChangeEvent e) {
+                int selectedIndex = jTabbedPane1.getSelectedIndex();
+                if (selectedIndex == 2) {
+                    loadRecentlyAddedTable();
+                } else if (selectedIndex == 3) {
+                    loadHistoryTable();
+                }
             }
         });
     }

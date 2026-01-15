@@ -24,10 +24,13 @@ public class UserDashboard extends javax.swing.JFrame {
     public UserDashboard() {
         initComponents();
         
-        // ✅ REQUIREMENT: Welcome Message at the top
-        jLabel6.setText("Welcome to Grocery Management System");
+        // Welcome Message at the top
+        jLabel6.setText("User Dashboard - Grocery Store");
         
-        // ✅ REQUIREMENT: Load data immediately when opening
+        // Initialize purchase amount to 0
+        jLabel9.setText("Total Purchased: Rs. 0.00");
+        
+        // Load data immediately when opening
         loadTableData();
         
         // Add mouse listener to table to fill fields on click
@@ -56,7 +59,7 @@ public class UserDashboard extends javax.swing.JFrame {
         Search = new javax.swing.JTextField();
         jButton2 = new javax.swing.JButton();
         jButton4 = new javax.swing.JButton();
-        jPanel5 = new javax.swing.JPanel();
+        txtQuantity = new javax.swing.JPanel();
         jLabel9 = new javax.swing.JLabel();
         jButton5 = new javax.swing.JButton();
         jPanel7 = new javax.swing.JPanel();
@@ -156,17 +159,17 @@ public class UserDashboard extends javax.swing.JFrame {
         jButton4.setText("Sort By Name");
         jButton4.addActionListener(this::jButton4ActionPerformed);
 
-        jPanel5.setBackground(new java.awt.Color(255, 255, 255));
-        jPanel5.setForeground(new java.awt.Color(255, 255, 255));
+        txtQuantity.setBackground(new java.awt.Color(255, 255, 255));
+        txtQuantity.setForeground(new java.awt.Color(255, 255, 255));
 
-        javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
-        jPanel5.setLayout(jPanel5Layout);
-        jPanel5Layout.setHorizontalGroup(
-            jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+        javax.swing.GroupLayout txtQuantityLayout = new javax.swing.GroupLayout(txtQuantity);
+        txtQuantity.setLayout(txtQuantityLayout);
+        txtQuantityLayout.setHorizontalGroup(
+            txtQuantityLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGap(0, 198, Short.MAX_VALUE)
         );
-        jPanel5Layout.setVerticalGroup(
-            jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+        txtQuantityLayout.setVerticalGroup(
+            txtQuantityLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGap(0, 33, Short.MAX_VALUE)
         );
 
@@ -191,7 +194,7 @@ public class UserDashboard extends javax.swing.JFrame {
                                 .addComponent(jLabel9))
                             .addGroup(jPanel3Layout.createSequentialGroup()
                                 .addGap(6, 6, 6)
-                                .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(txtQuantity, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(18, 18, 18)
                                 .addComponent(jButton5, javax.swing.GroupLayout.PREFERRED_SIZE, 175, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGroup(jPanel3Layout.createSequentialGroup()
@@ -218,7 +221,7 @@ public class UserDashboard extends javax.swing.JFrame {
                 .addComponent(jLabel9)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtQuantity, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jButton5, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(12, Short.MAX_VALUE))
         );
@@ -471,15 +474,16 @@ public class UserDashboard extends javax.swing.JFrame {
         }
     }
     
-    // Update purchase amount display
+    // Update purchase amount display - shows total of all purchases made
     private void updatePurchaseAmount() {
-        // Calculate total from history stack
+        // Calculate total from history stack (all purchases made)
         double total = 0;
         java.util.ArrayList<GroceryItem> historyItems = controller.getHistoryItems();
         for (GroceryItem item : historyItems) {
             total += item.getQuantity() * item.getPrice();
         }
-        jLabel9.setText("Purchase Amount: Rs. " + String.format("%.2f", total));
+        // Display total inside the label area
+        jLabel9.setText("Total Purchased: Rs. " + String.format("%.2f", total));
     }
 
     /**
@@ -519,7 +523,6 @@ public class UserDashboard extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
-    private javax.swing.JPanel jPanel5;
     private javax.swing.JPanel jPanel7;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
@@ -528,5 +531,6 @@ public class UserDashboard extends javax.swing.JFrame {
     private javax.swing.JTable jTable1;
     private javax.swing.JTable jTable2;
     private javax.swing.JTable jTable3;
+    private javax.swing.JPanel txtQuantity;
     // End of variables declaration//GEN-END:variables
 }

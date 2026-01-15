@@ -8,41 +8,41 @@ import Model.GroceryItem;
 import java.util.ArrayList;
 
 /**
- * GroceryController - Complete Controller for DSA Coursework
- * Contains all CRUD operations, data structures, sorting, and searching algorithms
+ * This controller handles all the grocery store operations
+ * I've implemented CRUD, sorting, searching, queue and stack here
  * 
  * @author Saksham Kandel
  * @studentId 24046631
  */
 public class GroceryController {
     
-    // Main ArrayList for inventory storage
-    private static ArrayList<GroceryItem> itemList = new ArrayList<>();
+    // This is our main list where we store all grocery items
+    private static ArrayList<GroceryItem> itemList = new ArrayList<GroceryItem>();
     
-    // Stack for History using array with top variable
+    // I'm using an array for the history stack with a top pointer
     private static final int STACK_MAX = 100;
     private static GroceryItem[] historyStack = new GroceryItem[STACK_MAX];
     private static int top = -1;
     
-    // Queue for Recently Added using array with front and rear variables
+    // This queue stores the last 5 recently added items using front and rear
     private static final int QUEUE_SIZE = 5;
     private static GroceryItem[] recentQueue = new GroceryItem[QUEUE_SIZE];
     private static int front = -1;
     private static int rear = -1;
     
-    // Flag to check if default data is already loaded
+    // This flag makes sure we only load default data once
     private static boolean isInitialized = false;
     
-    // Constructor
+    // Constructor - sets up the controller
     public GroceryController() {
-        // Load default data only once
+        // We only want to load the sample data the first time
         if (!isInitialized) {
             initializeDefaultData();
             isInitialized = true;
         }
     }
     
-    // Load 5 default grocery items as per requirement
+    // This loads 5 sample grocery items when the app starts
     private void initializeDefaultData() {
         itemList.add(new GroceryItem(101, "Apple", "Fruits", 50, 0.50));
         itemList.add(new GroceryItem(102, "Milk", "Dairy", 20, 1.20));
@@ -51,41 +51,42 @@ public class GroceryController {
         itemList.add(new GroceryItem(105, "Chicken", "Meat", 10, 5.50));
     }
     
-    // ---------------------- CRUD OPERATIONS ----------------------
-    
-    // Add new item with validation for duplicate ID and Name
+    // This method adds a new item after checking for duplicates
     public boolean addItem(GroceryItem newItem) {
-        // Check for duplicate ID
-        for (GroceryItem item : itemList) {
+        // First check if the ID already exists
+        for (int i = 0; i < itemList.size(); i++) {
+            GroceryItem item = itemList.get(i);
             if (item.getItemId() == newItem.getItemId()) {
                 throw new IllegalArgumentException("Error: Item ID " + newItem.getItemId() + " already exists.");
             }
         }
         
-        // Check for duplicate Name
-        for (GroceryItem item : itemList) {
+        // Also check if the name is taken
+        for (int i = 0; i < itemList.size(); i++) {
+            GroceryItem item = itemList.get(i);
             if (item.getName().equalsIgnoreCase(newItem.getName())) {
                 throw new IllegalArgumentException("Error: Item Name '" + newItem.getName() + "' already exists.");
             }
         }
         
-        // Add to main list
+        // All good, add it to our list
         itemList.add(newItem);
         
-        // Also add to recently added queue
+        // Also put it in the recently added queue
         enqueue(newItem);
         
         return true;
     }
     
-    // Get all items
+    // Returns all items in our inventory
     public ArrayList<GroceryItem> getAllItems() {
         return itemList;
     }
     
-    // Get item by ID
+    // Finds an item by its ID
     public GroceryItem getItemById(int itemId) {
-        for (GroceryItem item : itemList) {
+        for (int i = 0; i < itemList.size(); i++) {
+            GroceryItem item = itemList.get(i);
             if (item.getItemId() == itemId) {
                 return item;
             }
@@ -93,7 +94,7 @@ public class GroceryController {
         return null;
     }
     
-    // Update existing item
+    // Updates an existing item with new values
     public void updateItem(GroceryItem updatedItem) {
         for (int i = 0; i < itemList.size(); i++) {
             if (itemList.get(i).getItemId() == updatedItem.getItemId()) {
@@ -104,28 +105,44 @@ public class GroceryController {
         throw new IllegalArgumentException("Error: Item ID " + updatedItem.getItemId() + " not found for update.");
     }
     
-    // Delete item by ID
+    // Removes an item from our inventory using a simple loop
     public void deleteItem(int itemId) {
-        boolean removed = itemList.removeIf(item -> item.getItemId() == itemId);
-        if (!removed) {
+        int indexToRemove = -1;
+        
+        // Find the index of the item to delete
+        for (int i = 0; i < itemList.size(); i++) {
+            if (itemList.get(i).getItemId() == itemId) {
+                indexToRemove = i;
+                break;
+            }
+        }
+        
+        // Remove if found
+        if (indexToRemove != -1) {
+            itemList.remove(indexToRemove);
+        } else {
             throw new IllegalArgumentException("Error: Item ID " + itemId + " not found for deletion.");
         }
     }
     
-    // ---------------------- QUEUE OPERATIONS (Recently Added) ----------------------
-    // Using array-based queue with front and rear pointers
-    
-    // Check if queue is empty
+    // Checks if the queue has no items
     public boolean isQueueEmpty() {
-        return front == -1;
+        if (front == -1) {
+            return true;
+        }
+        return false;
     }
     
-    // Check if queue is full
+    // Checks if the queue is at capacity
     public boolean isQueueFull() {
-        return (rear + 1) % QUEUE_SIZE == front;
+        int nextRear = (rear + 1) % QUEUE_SIZE;
+        if (nextRear == front) {
+            return true;
+        }
+        return false;
     }
     
-    // Get current queue size
+    // Counts how many items are in the queue right now
     public int getQueueSize() {
         if (isQueueEmpty()) {
             return 0;
@@ -136,24 +153,24 @@ public class GroceryController {
         return QUEUE_SIZE - front + rear + 1;
     }
     
-    // Enqueue - add item to rear of queue
+    // Adds an item to the back of the queue
     public void enqueue(GroceryItem item) {
-        // If queue is full, remove oldest item first (dequeue)
+        // If queue is full, we remove the oldest one first
         if (isQueueFull()) {
             dequeue();
         }
         
-        // If queue is empty, set front to 0
+        // Handle the case when queue was empty
         if (front == -1) {
             front = 0;
         }
         
-        // Move rear circularly and add item
+        // Put the item at the rear position
         rear = (rear + 1) % QUEUE_SIZE;
         recentQueue[rear] = item;
     }
     
-    // Dequeue - remove item from front of queue
+    // Takes out the item from the front of the queue
     public GroceryItem dequeue() {
         if (isQueueEmpty()) {
             return null;
@@ -162,19 +179,19 @@ public class GroceryController {
         GroceryItem item = recentQueue[front];
         recentQueue[front] = null;
         
-        // If only one element was present
+        // Check if this was the last item
         if (front == rear) {
             front = -1;
             rear = -1;
         } else {
-            // Move front circularly
+            // Move front to the next position
             front = (front + 1) % QUEUE_SIZE;
         }
         
         return item;
     }
     
-    // Peek front element without removing
+    // Lets us see the front item without removing it
     public GroceryItem peekQueue() {
         if (isQueueEmpty()) {
             return null;
@@ -182,9 +199,9 @@ public class GroceryController {
         return recentQueue[front];
     }
     
-    // Get all items from queue as ArrayList
+    // Gets all the recently added items as a list
     public ArrayList<GroceryItem> getRecentlyAddedItems() {
-        ArrayList<GroceryItem> recentItems = new ArrayList<>();
+        ArrayList<GroceryItem> recentItems = new ArrayList<GroceryItem>();
         
         if (isQueueEmpty()) {
             return recentItems;
@@ -202,46 +219,49 @@ public class GroceryController {
         return recentItems;
     }
     
-    // ---------------------- STACK OPERATIONS (History) ----------------------
-    // Using array-based stack with top variable
-    
-    // Check if stack is empty
+    // Checks if history stack is empty
     public boolean isStackEmpty() {
-        return top == -1;
+        if (top == -1) {
+            return true;
+        }
+        return false;
     }
     
-    // Check if stack is full
+    // Checks if we've hit the stack limit
     public boolean isStackFull() {
-        return top == STACK_MAX - 1;
+        if (top == STACK_MAX - 1) {
+            return true;
+        }
+        return false;
     }
     
-    // Get current stack size
+    // Returns number of items in history
     public int getStackSize() {
         return top + 1;
     }
     
-    // Push - add item to top of stack
+    // Puts an item on top of the history stack
     public void push(GroceryItem item) {
         if (isStackFull()) {
             System.out.println("History stack is full!");
             return;
         }
-        top++;
+        top = top + 1;
         historyStack[top] = item;
     }
     
-    // Pop - remove and return top item from stack
+    // Takes the top item off the stack
     public GroceryItem pop() {
         if (isStackEmpty()) {
             return null;
         }
         GroceryItem item = historyStack[top];
         historyStack[top] = null;
-        top--;
+        top = top - 1;
         return item;
     }
     
-    // Peek top element without removing
+    // Lets us see the top item without removing it
     public GroceryItem peekStack() {
         if (isStackEmpty()) {
             return null;
@@ -249,11 +269,11 @@ public class GroceryController {
         return historyStack[top];
     }
     
-    // Get all items from stack as ArrayList (most recent first)
+    // Gets all history items with most recent first
     public ArrayList<GroceryItem> getHistoryItems() {
-        ArrayList<GroceryItem> historyItems = new ArrayList<>();
+        ArrayList<GroceryItem> historyItems = new ArrayList<GroceryItem>();
         
-        // Add from top to bottom (most recent first)
+        // Go from top to bottom so newest shows first
         for (int i = top; i >= 0; i--) {
             if (historyStack[i] != null) {
                 historyItems.add(historyStack[i]);
@@ -263,7 +283,7 @@ public class GroceryController {
         return historyItems;
     }
     
-    // Process a purchase - reduces stock and adds to history stack
+    // Handles when a user buys something
     public boolean processPurchase(int itemId, int quantity) {
         GroceryItem item = linearSearchById(itemId);
         
@@ -279,28 +299,27 @@ public class GroceryController {
             throw new IllegalArgumentException("Error: Insufficient stock! Available: " + item.getQuantity());
         }
         
-        // Reduce item quantity
-        item.setQuantity(item.getQuantity() - quantity);
+        // Take the quantity out of stock
+        int newQuantity = item.getQuantity() - quantity;
+        item.setQuantity(newQuantity);
         
-        // Create a copy for history with purchased quantity
+        // Make a record of what was purchased for history
         GroceryItem purchasedItem = new GroceryItem(
             item.getItemId(),
             item.getName(),
             item.getCategory(),
-            quantity,  // Store purchased quantity
+            quantity,
             item.getPrice()
         );
         
-        // Push to history stack
+        // Add to history so we can track it
         push(purchasedItem);
         
         return true;
     }
     
-    // ---------------------- SORTING ALGORITHMS ----------------------
-    
-    // Insertion Sort by Name (Alphabetical A-Z)
-    // Builds sorted array one element at a time by inserting each element in correct position
+    // Sorts items alphabetically by name using insertion sort
+    // It works by taking each item and putting it in the right spot
     public void insertionSortByName() {
         int n = itemList.size();
         
@@ -308,7 +327,7 @@ public class GroceryController {
             GroceryItem key = itemList.get(i);
             int j = i - 1;
             
-            // Move elements greater than key one position ahead
+            // Keep moving items right until we find the right spot
             while (j >= 0 && itemList.get(j).getName().compareToIgnoreCase(key.getName()) > 0) {
                 itemList.set(j + 1, itemList.get(j));
                 j = j - 1;
@@ -317,7 +336,7 @@ public class GroceryController {
         }
     }
     
-    // Insertion Sort by Price (Low to High)
+    // Sorts by price from cheapest to most expensive
     public void insertionSortByPrice() {
         int n = itemList.size();
         
@@ -333,7 +352,7 @@ public class GroceryController {
         }
     }
     
-    // Insertion Sort by Quantity (Low to High)
+    // Sorts by quantity from lowest to highest stock
     public void insertionSortByQuantity() {
         int n = itemList.size();
         
@@ -349,13 +368,13 @@ public class GroceryController {
         }
     }
     
-    // Selection Sort by ID (Ascending)
-    // Finds minimum element in unsorted portion and swaps with first unsorted element
+    // Sorts by ID using selection sort
+    // It finds the smallest and swaps it to the front, then repeats
     public void selectionSortById() {
         int n = itemList.size();
         
         for (int i = 0; i < n - 1; i++) {
-            // Find minimum element index in unsorted portion
+            // Look for the smallest ID in the unsorted part
             int minIndex = i;
             
             for (int j = i + 1; j < n; j++) {
@@ -364,7 +383,7 @@ public class GroceryController {
                 }
             }
             
-            // Swap if minimum is not at current position
+            // Swap it to the current position if needed
             if (minIndex != i) {
                 GroceryItem temp = itemList.get(minIndex);
                 itemList.set(minIndex, itemList.get(i));
@@ -373,7 +392,7 @@ public class GroceryController {
         }
     }
     
-    // Selection Sort by Name (Alphabetical A-Z)
+    // Sorts alphabetically using selection sort
     public void selectionSortByName() {
         int n = itemList.size();
         
@@ -394,7 +413,7 @@ public class GroceryController {
         }
     }
     
-    // Selection Sort by Price (Low to High)
+    // Sorts by price using selection sort
     public void selectionSortByPrice() {
         int n = itemList.size();
         
@@ -415,7 +434,7 @@ public class GroceryController {
         }
     }
     
-    // Selection Sort by Quantity (Low to High)
+    // Sorts by quantity using selection sort
     public void selectionSortByQuantity() {
         int n = itemList.size();
         
@@ -436,10 +455,7 @@ public class GroceryController {
         }
     }
     
-    // ---------------------- SEARCHING ALGORITHMS ----------------------
-    
-    // Linear Search by ID
-    // Sequentially checks each element until match is found
+    // Linear search goes through each item one by one to find the ID
     public GroceryItem linearSearchById(int targetId) {
         for (int i = 0; i < itemList.size(); i++) {
             if (itemList.get(i).getItemId() == targetId) {
@@ -449,7 +465,7 @@ public class GroceryController {
         return null;
     }
     
-    // Linear Search by Name (exact match, case-insensitive)
+    // Searches for exact name match, ignoring uppercase/lowercase
     public GroceryItem linearSearchByName(String targetName) {
         for (int i = 0; i < itemList.size(); i++) {
             if (itemList.get(i).getName().equalsIgnoreCase(targetName)) {
@@ -459,14 +475,16 @@ public class GroceryController {
         return null;
     }
     
-    // Linear Search by Name (partial match for search-as-you-type)
-    // Returns all items containing the search term
+    // This finds all items that contain the search term
+    // Useful for the search box where you type partial words
     public ArrayList<GroceryItem> linearSearchByNamePartial(String searchTerm) {
-        ArrayList<GroceryItem> results = new ArrayList<>();
+        ArrayList<GroceryItem> results = new ArrayList<GroceryItem>();
         String lowerSearchTerm = searchTerm.toLowerCase();
         
         for (int i = 0; i < itemList.size(); i++) {
-            if (itemList.get(i).getName().toLowerCase().contains(lowerSearchTerm)) {
+            String itemName = itemList.get(i).getName().toLowerCase();
+            // Check if item name contains the search term
+            if (itemName.indexOf(lowerSearchTerm) >= 0) {
                 results.add(itemList.get(i));
             }
         }
@@ -474,34 +492,36 @@ public class GroceryController {
         return results;
     }
     
-    // Binary Search by ID
-    // Requires sorted data - divides search interval in half repeatedly
+    // Binary search is faster but needs sorted data
+    // It keeps cutting the list in half until it finds the item
     public GroceryItem binarySearchById(int targetId) {
-        // Sort by ID first as binary search requires sorted data
+        // First we need to sort by ID
         selectionSortById();
         
         int low = 0;
         int high = itemList.size() - 1;
         
         while (low <= high) {
-            int mid = low + (high - low) / 2;  // Prevents overflow
+            int mid = low + (high - low) / 2;
             int midId = itemList.get(mid).getItemId();
             
             if (midId == targetId) {
                 return itemList.get(mid);
             } else if (midId < targetId) {
-                low = mid + 1;  // Search right half
+                // Target is in the right half
+                low = mid + 1;
             } else {
-                high = mid - 1;  // Search left half
+                // Target is in the left half
+                high = mid - 1;
             }
         }
         
         return null;
     }
     
-    // Binary Search by Name (Alphabetical)
+    // Binary search for finding items by name
     public GroceryItem binarySearchByName(String targetName) {
-        // Sort by Name first
+        // Sort alphabetically first
         insertionSortByName();
         
         int low = 0;
@@ -524,27 +544,26 @@ public class GroceryController {
         return null;
     }
     
-    // ---------------------- UTILITY METHODS ----------------------
-    
-    // Get total inventory value (sum of quantity * price)
+    // Calculates the total value of everything in stock
     public double getTotalInventoryValue() {
         double total = 0;
-        for (GroceryItem item : itemList) {
-            total += item.getQuantity() * item.getPrice();
+        for (int i = 0; i < itemList.size(); i++) {
+            GroceryItem item = itemList.get(i);
+            total = total + (item.getQuantity() * item.getPrice());
         }
         return total;
     }
     
-    // Get total stock count
+    // Adds up how many items we have in total
     public int getTotalStockCount() {
         int total = 0;
-        for (GroceryItem item : itemList) {
-            total += item.getQuantity();
+        for (int i = 0; i < itemList.size(); i++) {
+            total = total + itemList.get(i).getQuantity();
         }
         return total;
     }
     
-    // Get total number of unique items
+    // Returns how many different products we have
     public int getTotalItemCount() {
         return itemList.size();
     }
