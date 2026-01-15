@@ -12,28 +12,38 @@ import javax.swing.table.DefaultTableModel;
  *
  * @author Acer
  */
-public class Dashboard extends javax.swing.JFrame {
+public class AdminDashboard extends javax.swing.JFrame {
     
-    private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(Dashboard.class.getName());
+    private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(AdminDashboard.class.getName());
 
     private GroceryController controller = new GroceryController();
     
     /**
      * Creates new form Dashboard
      */
-    public Dashboard() {
+    public AdminDashboard() {
         initComponents();
         
-        // ✅ REQUIREMENT: Welcome Message at the top
-        jLabel6.setText("Welcome to Grocery Management System");
+        // Welcome Message at the top
+        jLabel6.setText("Admin Dashboard - Grocery Management System");
         
-        // ✅ REQUIREMENT: Load data immediately when opening
+        // Load data immediately when opening
         loadTableData();
         
         // Add mouse listener to table to fill fields on click
         jTable2.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 jTable2MouseClicked(evt);
+            }
+        });
+        
+        // Add tab change listener to load data when switching tabs
+        jTabbedPane1.addChangeListener(e -> {
+            int selectedIndex = jTabbedPane1.getSelectedIndex();
+            if (selectedIndex == 2) { // Recently Added tab
+                loadRecentlyAddedTable();
+            } else if (selectedIndex == 3) { // History tab
+                loadHistoryTable();
             }
         });
     }
@@ -44,6 +54,7 @@ public class Dashboard extends javax.swing.JFrame {
 
         jScrollPane1 = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable();
+        jButton3 = new javax.swing.JButton();
         jPanel1 = new javax.swing.JPanel();
         jPanel2 = new javax.swing.JPanel();
         jLabel6 = new javax.swing.JLabel();
@@ -60,6 +71,7 @@ public class Dashboard extends javax.swing.JFrame {
         jPanel6 = new javax.swing.JPanel();
         jLabel10 = new javax.swing.JLabel();
         jLabel9 = new javax.swing.JLabel();
+        jButton6 = new javax.swing.JButton();
         jPanel4 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
@@ -78,6 +90,12 @@ public class Dashboard extends javax.swing.JFrame {
         Update = new javax.swing.JButton();
         Update2 = new javax.swing.JButton();
         Update1 = new javax.swing.JButton();
+        jPanel7 = new javax.swing.JPanel();
+        jScrollPane3 = new javax.swing.JScrollPane();
+        jTable3 = new javax.swing.JTable();
+        jPanel8 = new javax.swing.JPanel();
+        jScrollPane4 = new javax.swing.JScrollPane();
+        jTable4 = new javax.swing.JTable();
 
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -92,7 +110,10 @@ public class Dashboard extends javax.swing.JFrame {
         ));
         jScrollPane1.setViewportView(jTable1);
 
+        jButton3.setText("jButton3");
+
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setResizable(false);
         addWindowListener(new java.awt.event.WindowAdapter() {
             public void windowActivated(java.awt.event.WindowEvent evt) {
                 formWindowActivated(evt);
@@ -156,10 +177,9 @@ public class Dashboard extends javax.swing.JFrame {
         ));
         jScrollPane2.setViewportView(jTable2);
 
-        Search.setText("Search                                                >");
         Search.addActionListener(this::SearchActionPerformed);
 
-        jButton2.setText("Sort By ID");
+        jButton2.setText("Search");
         jButton2.addActionListener(this::jButton2ActionPerformed);
 
         jButton4.setText("Sort By Name");
@@ -198,6 +218,9 @@ public class Dashboard extends javax.swing.JFrame {
         jLabel9.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         jLabel9.setText("Total Value");
 
+        jButton6.setText("Sort By ID");
+        jButton6.addActionListener(this::jButton6ActionPerformed);
+
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
         jPanel3Layout.setHorizontalGroup(
@@ -205,13 +228,7 @@ public class Dashboard extends javax.swing.JFrame {
             .addGroup(jPanel3Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane2)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
-                        .addComponent(Search, javax.swing.GroupLayout.PREFERRED_SIZE, 226, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jButton4, javax.swing.GroupLayout.DEFAULT_SIZE, 312, Short.MAX_VALUE))
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 776, Short.MAX_VALUE)
                     .addGroup(jPanel3Layout.createSequentialGroup()
                         .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel3Layout.createSequentialGroup()
@@ -221,8 +238,15 @@ public class Dashboard extends javax.swing.JFrame {
                             .addGroup(jPanel3Layout.createSequentialGroup()
                                 .addComponent(jLabel10)
                                 .addGap(50, 50, 50)
-                                .addComponent(jLabel9)))
-                        .addGap(0, 0, Short.MAX_VALUE)))
+                                .addComponent(jLabel9))
+                            .addGroup(jPanel3Layout.createSequentialGroup()
+                                .addComponent(Search, javax.swing.GroupLayout.PREFERRED_SIZE, 226, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jButton2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jButton6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 207, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
         );
         jPanel3Layout.setVerticalGroup(
@@ -230,10 +254,12 @@ public class Dashboard extends javax.swing.JFrame {
             .addGroup(jPanel3Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(Search, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(jButton2)
-                        .addComponent(jButton4)))
+                        .addComponent(Search, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jButton2))
+                    .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jButton4)
+                        .addComponent(jButton6)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 255, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
@@ -329,6 +355,78 @@ public class Dashboard extends javax.swing.JFrame {
         Update1.setBounds(420, 250, 149, 29);
 
         jTabbedPane1.addTab("Add Item", jPanel4);
+
+        jTable3.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null}
+            },
+            new String [] {
+                "ID", "Name", "Category ", "Quantity ", "Price"
+            }
+        ));
+        jScrollPane3.setViewportView(jTable3);
+
+        javax.swing.GroupLayout jPanel7Layout = new javax.swing.GroupLayout(jPanel7);
+        jPanel7.setLayout(jPanel7Layout);
+        jPanel7Layout.setHorizontalGroup(
+            jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 788, Short.MAX_VALUE)
+            .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(jPanel7Layout.createSequentialGroup()
+                    .addContainerGap()
+                    .addComponent(jScrollPane3)
+                    .addContainerGap()))
+        );
+        jPanel7Layout.setVerticalGroup(
+            jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 363, Short.MAX_VALUE)
+            .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(jPanel7Layout.createSequentialGroup()
+                    .addContainerGap()
+                    .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 351, Short.MAX_VALUE)
+                    .addContainerGap()))
+        );
+
+        jTabbedPane1.addTab("Recently Added", jPanel7);
+
+        jTable4.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null}
+            },
+            new String [] {
+                "ID", "Name", "Category ", "Quantity ", "Price"
+            }
+        ));
+        jScrollPane4.setViewportView(jTable4);
+
+        javax.swing.GroupLayout jPanel8Layout = new javax.swing.GroupLayout(jPanel8);
+        jPanel8.setLayout(jPanel8Layout);
+        jPanel8Layout.setHorizontalGroup(
+            jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 788, Short.MAX_VALUE)
+            .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(jPanel8Layout.createSequentialGroup()
+                    .addContainerGap()
+                    .addComponent(jScrollPane4)
+                    .addContainerGap()))
+        );
+        jPanel8Layout.setVerticalGroup(
+            jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 363, Short.MAX_VALUE)
+            .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(jPanel8Layout.createSequentialGroup()
+                    .addContainerGap()
+                    .addComponent(jScrollPane4, javax.swing.GroupLayout.DEFAULT_SIZE, 351, Short.MAX_VALUE)
+                    .addContainerGap()))
+        );
+
+        jTabbedPane1.addTab("History", jPanel8);
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -436,11 +534,43 @@ public class Dashboard extends javax.swing.JFrame {
     }//GEN-LAST:event_SearchActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-       
+        // Search functionality - uses Binary Search for ID, Linear Search for Name
+        String searchTerm = Search.getText().trim();
+        
+        if (searchTerm.isEmpty()) {
+            loadTableData(); // Reset to show all
+            return;
+        }
+        
+        // Try as ID first (Binary Search)
+        try {
+            int searchId = Integer.parseInt(searchTerm);
+            GroceryItem found = controller.binarySearchById(searchId);
+            
+            if (found != null) {
+                displaySingleItem(found);
+                JOptionPane.showMessageDialog(this, "Found using Binary Search!");
+            } else {
+                JOptionPane.showMessageDialog(this, "Item not found!", "Search Result", JOptionPane.INFORMATION_MESSAGE);
+            }
+        } catch (NumberFormatException e) {
+            // Not a number, use Linear Search for Name
+            java.util.ArrayList<GroceryItem> results = controller.linearSearchByNamePartial(searchTerm);
+            
+            if (!results.isEmpty()) {
+                displaySearchResults(results);
+                JOptionPane.showMessageDialog(this, "Found " + results.size() + " result(s) using Linear Search!");
+            } else {
+                JOptionPane.showMessageDialog(this, "No items found!", "Search Result", JOptionPane.INFORMATION_MESSAGE);
+            }
+        }
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
-        
+        // Sort by Name using Insertion Sort
+        controller.insertionSortByName();
+        loadTableData();
+        JOptionPane.showMessageDialog(this, "Sorted by Name using Insertion Sort!");
     }//GEN-LAST:event_jButton4ActionPerformed
 
     private void UpdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_UpdateActionPerformed
@@ -502,6 +632,13 @@ public class Dashboard extends javax.swing.JFrame {
     private void formWindowActivated(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowActivated
     loadTableData();    // TODO add your handling code here:
     }//GEN-LAST:event_formWindowActivated
+
+    private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
+        // Sort by ID using Selection Sort
+        controller.selectionSortById();
+        loadTableData();
+        JOptionPane.showMessageDialog(this, "Sorted by ID using Selection Sort!");
+    }//GEN-LAST:event_jButton6ActionPerformed
     
     // ==================== HELPER METHODS ====================
     
@@ -535,9 +672,6 @@ public class Dashboard extends javax.swing.JFrame {
         txtPrice.setText("");
     }
 
-    /**
-     * Helper to click a row and fill the text boxes.
-     */
     private void jTable2MouseClicked(java.awt.event.MouseEvent evt) {
         int selectedRow = jTable2.getSelectedRow();
         if (selectedRow != -1) {
@@ -548,6 +682,74 @@ public class Dashboard extends javax.swing.JFrame {
             txtCategory.setText(model.getValueAt(selectedRow, 2).toString());
             txtQuantity.setText(model.getValueAt(selectedRow, 3).toString());
             txtPrice.setText(model.getValueAt(selectedRow, 4).toString());
+        }
+    }
+    
+    // Helper to display a single item in the table (for search results)
+    private void displaySingleItem(GroceryItem item) {
+        DefaultTableModel model = (DefaultTableModel) jTable2.getModel();
+        model.setRowCount(0);
+        
+        Object[] row = {
+            item.getItemId(),
+            item.getName(),
+            item.getCategory(),
+            item.getQuantity(),
+            item.getPrice()
+        };
+        model.addRow(row);
+    }
+    
+    // Helper to display multiple search results
+    private void displaySearchResults(java.util.ArrayList<GroceryItem> results) {
+        DefaultTableModel model = (DefaultTableModel) jTable2.getModel();
+        model.setRowCount(0);
+        
+        for (GroceryItem item : results) {
+            Object[] row = {
+                item.getItemId(),
+                item.getName(),
+                item.getCategory(),
+                item.getQuantity(),
+                item.getPrice()
+            };
+            model.addRow(row);
+        }
+    }
+    
+    // Load Recently Added items from Queue into jTable3
+    private void loadRecentlyAddedTable() {
+        DefaultTableModel model = (DefaultTableModel) jTable3.getModel();
+        model.setRowCount(0);
+        
+        java.util.ArrayList<GroceryItem> recentItems = controller.getRecentlyAddedItems();
+        for (GroceryItem item : recentItems) {
+            Object[] row = {
+                item.getItemId(),
+                item.getName(),
+                item.getCategory(),
+                item.getQuantity(),
+                item.getPrice()
+            };
+            model.addRow(row);
+        }
+    }
+    
+    // Load History items from Stack into jTable4
+    private void loadHistoryTable() {
+        DefaultTableModel model = (DefaultTableModel) jTable4.getModel();
+        model.setRowCount(0);
+        
+        java.util.ArrayList<GroceryItem> historyItems = controller.getHistoryItems();
+        for (GroceryItem item : historyItems) {
+            Object[] row = {
+                item.getItemId(),
+                item.getName(),
+                item.getCategory(),
+                item.getQuantity(),
+                item.getPrice()
+            };
+            model.addRow(row);
         }
     }
 
@@ -573,7 +775,7 @@ public class Dashboard extends javax.swing.JFrame {
         //</editor-fold>
 
         /* Create and display the form */
-        java.awt.EventQueue.invokeLater(() -> new Dashboard().setVisible(true));
+        java.awt.EventQueue.invokeLater(() -> new AdminDashboard().setVisible(true));
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -583,8 +785,10 @@ public class Dashboard extends javax.swing.JFrame {
     private javax.swing.JButton Update2;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
+    private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
     private javax.swing.JButton jButton5;
+    private javax.swing.JButton jButton6;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel12;
@@ -602,11 +806,17 @@ public class Dashboard extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel4;
     private javax.swing.JPanel jPanel5;
     private javax.swing.JPanel jPanel6;
+    private javax.swing.JPanel jPanel7;
+    private javax.swing.JPanel jPanel8;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JScrollPane jScrollPane3;
+    private javax.swing.JScrollPane jScrollPane4;
     private javax.swing.JTabbedPane jTabbedPane1;
     private javax.swing.JTable jTable1;
     private javax.swing.JTable jTable2;
+    private javax.swing.JTable jTable3;
+    private javax.swing.JTable jTable4;
     private javax.swing.JTextField jTextField6;
     private javax.swing.JTextField txtCategory;
     private javax.swing.JTextField txtItemId;
