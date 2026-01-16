@@ -4,16 +4,17 @@
  */
 package Model;
 
+// This class represents a single grocery item in the store
 public class GroceryItem {
     
-    // Attributes
-    private int itemId;         // Unique ID for Binary Search
-    private String name;        // Product name for Linear Search
-    private String category;    // e.g., "Dairy", "Snacks"
-    private int quantity;       // Stock level (must be non-negative) 
-    private double price;       // Price per unit
+    // These are the properties of each item
+    private int itemId;
+    private String name;
+    private String category;
+    private int quantity;
+    private double price;
     
-    // Constructor
+    // Constructor to create a new item
     public GroceryItem(int itemId, String name, String category, int quantity, double price) {
         this.itemId = itemId;
         this.name = name;
@@ -22,7 +23,7 @@ public class GroceryItem {
         this.price = price;
     }
 
-    // Getters and Setters
+    // Getters - used to access the properties
     
     public int getItemId() {
         return itemId;
@@ -52,10 +53,9 @@ public class GroceryItem {
         return quantity;
     }
 
-    // Validation logic can be added here or in the Controller
+    // Makes sure quantity is not negative
     public void setQuantity(int quantity) {
         if (quantity < 0) {
-            // Requirement: Prevent entering negative numbers 
             throw new IllegalArgumentException("Quantity cannot be negative.");
         }
         this.quantity = quantity;
@@ -65,6 +65,7 @@ public class GroceryItem {
         return price;
     }
 
+    // Makes sure price is not negative
     public void setPrice(double price) {
         if (price < 0) {
             throw new IllegalArgumentException("Price cannot be negative.");
@@ -72,8 +73,7 @@ public class GroceryItem {
         this.price = price;
     }
 
-    // toString method for easy debugging/printing
-    @Override
+    // Returns item info as a string for printing
     public String toString() {
         return "ID: " + itemId + " | Name: " + name + " | Category: " + category + 
                " | Qty: " + quantity + " | Price: " + price;

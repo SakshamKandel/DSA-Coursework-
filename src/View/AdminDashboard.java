@@ -60,8 +60,9 @@ public class AdminDashboard extends javax.swing.JFrame {
         jPanel1 = new javax.swing.JPanel();
         jPanel2 = new javax.swing.JPanel();
         jLabel6 = new javax.swing.JLabel();
-        jLabel7 = new javax.swing.JLabel();
         jButton5 = new javax.swing.JButton();
+        jPanel9 = new javax.swing.JPanel();
+        jLabel7 = new javax.swing.JLabel();
         jTabbedPane1 = new javax.swing.JTabbedPane();
         jPanel3 = new javax.swing.JPanel();
         jScrollPane2 = new javax.swing.JScrollPane();
@@ -88,7 +89,6 @@ public class AdminDashboard extends javax.swing.JFrame {
         jButton1 = new javax.swing.JButton();
         jLabel8 = new javax.swing.JLabel();
         jLabel12 = new javax.swing.JLabel();
-        jTextField6 = new javax.swing.JTextField();
         Update = new javax.swing.JButton();
         Update2 = new javax.swing.JButton();
         Update1 = new javax.swing.JButton();
@@ -122,49 +122,70 @@ public class AdminDashboard extends javax.swing.JFrame {
             }
         });
 
-        jPanel1.setBackground(new java.awt.Color(255, 255, 255));
+        jPanel1.setBackground(new java.awt.Color(0, 0, 0));
 
-        jPanel2.setBackground(new java.awt.Color(102, 102, 102));
+        jPanel2.setBackground(new java.awt.Color(0, 0, 0));
         jPanel2.setToolTipText("");
 
         jLabel6.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
         jLabel6.setForeground(new java.awt.Color(255, 255, 255));
         jLabel6.setText("Grocery Management System");
 
-        jLabel7.setBackground(new java.awt.Color(255, 255, 255));
-        jLabel7.setIcon(new javax.swing.ImageIcon("C:\\Users\\Acer\\Downloads\\Logo  Grocery.png")); // NOI18N
-
         jButton5.setText("Logout");
         jButton5.addActionListener(this::jButton5ActionPerformed);
+
+        jPanel9.setBackground(new java.awt.Color(255, 255, 255));
+
+        jLabel7.setBackground(new java.awt.Color(255, 255, 255));
+        jLabel7.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel7.setIcon(new javax.swing.ImageIcon("C:\\Users\\Acer\\Downloads\\Logo  Grocery.png")); // NOI18N
+
+        javax.swing.GroupLayout jPanel9Layout = new javax.swing.GroupLayout(jPanel9);
+        jPanel9.setLayout(jPanel9Layout);
+        jPanel9Layout.setHorizontalGroup(
+            jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel9Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabel7)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+        jPanel9Layout.setVerticalGroup(
+            jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel9Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabel7)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
-                .addGap(8, 8, 8)
-                .addComponent(jLabel7)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jLabel6)
+                .addGap(15, 15, 15)
+                .addComponent(jPanel9, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 438, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jButton5, javax.swing.GroupLayout.PREFERRED_SIZE, 175, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(16, 16, 16))
+                .addGap(14, 14, 14))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jLabel7)
-                .addContainerGap(10, Short.MAX_VALUE))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                .addGap(0, 0, Short.MAX_VALUE)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton5, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel6))
-                .addGap(40, 40, 40))
+                .addGap(0, 8, Short.MAX_VALUE)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jButton5, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(28, 28, 28))
+                    .addComponent(jPanel9, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
         );
 
         jTabbedPane1.setBackground(new java.awt.Color(255, 255, 255));
+
+        jPanel3.setBackground(new java.awt.Color(51, 51, 51));
 
         jTable2.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -215,9 +236,11 @@ public class AdminDashboard extends javax.swing.JFrame {
         );
 
         jLabel10.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        jLabel10.setForeground(new java.awt.Color(255, 255, 255));
         jLabel10.setText("Total Stock");
 
         jLabel9.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        jLabel9.setForeground(new java.awt.Color(255, 255, 255));
         jLabel9.setText("Total Value");
 
         jButton6.setText("Sort By ID");
@@ -277,32 +300,43 @@ public class AdminDashboard extends javax.swing.JFrame {
 
         jTabbedPane1.addTab("Dashboard", jPanel3);
 
+        jPanel4.setBackground(new java.awt.Color(0, 0, 0));
         jPanel4.setLayout(null);
 
+        jLabel1.setBackground(new java.awt.Color(255, 255, 255));
         jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        jLabel1.setForeground(new java.awt.Color(255, 255, 255));
         jLabel1.setText("Item ID ");
         jPanel4.add(jLabel1);
         jLabel1.setBounds(30, 100, 46, 16);
 
+        jLabel2.setBackground(new java.awt.Color(255, 255, 255));
         jLabel2.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        jLabel2.setForeground(new java.awt.Color(255, 255, 255));
         jLabel2.setText("Name ");
         jPanel4.add(jLabel2);
-        jLabel2.setBounds(30, 140, 36, 16);
+        jLabel2.setBounds(30, 140, 60, 16);
 
+        jLabel3.setBackground(new java.awt.Color(255, 255, 255));
         jLabel3.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        jLabel3.setForeground(new java.awt.Color(255, 255, 255));
         jLabel3.setText("Category ");
         jPanel4.add(jLabel3);
-        jLabel3.setBounds(30, 180, 53, 16);
+        jLabel3.setBounds(30, 180, 70, 16);
 
+        jLabel4.setBackground(new java.awt.Color(255, 255, 255));
         jLabel4.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        jLabel4.setForeground(new java.awt.Color(255, 255, 255));
         jLabel4.setText("Price ");
         jPanel4.add(jLabel4);
         jLabel4.setBounds(30, 250, 31, 16);
 
+        jLabel5.setBackground(new java.awt.Color(255, 255, 255));
         jLabel5.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        jLabel5.setForeground(new java.awt.Color(255, 255, 255));
         jLabel5.setText("Quantity ");
         jPanel4.add(jLabel5);
-        jLabel5.setBounds(30, 220, 51, 16);
+        jLabel5.setBounds(30, 220, 70, 16);
 
         txtItemId.addActionListener(this::txtItemIdActionPerformed);
         jPanel4.add(txtItemId);
@@ -329,34 +363,38 @@ public class AdminDashboard extends javax.swing.JFrame {
         jPanel4.add(jButton1);
         jButton1.setBounds(190, 280, 100, 23);
 
+        jLabel8.setBackground(new java.awt.Color(255, 255, 255));
         jLabel8.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
+        jLabel8.setForeground(new java.awt.Color(255, 255, 255));
         jLabel8.setText("Product details");
         jPanel4.add(jLabel8);
         jLabel8.setBounds(30, 40, 178, 48);
 
+        jLabel12.setBackground(new java.awt.Color(255, 255, 255));
         jLabel12.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
-        jLabel12.setText("Manipulate Item");
+        jLabel12.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel12.setText("Edit Items");
         jPanel4.add(jLabel12);
-        jLabel12.setBounds(400, 60, 213, 48);
-        jPanel4.add(jTextField6);
-        jTextField6.setBounds(390, 130, 210, 22);
+        jLabel12.setBounds(390, 80, 213, 48);
 
         Update.setText("Update");
         Update.addActionListener(this::UpdateActionPerformed);
         jPanel4.add(Update);
-        Update.setBounds(420, 170, 149, 29);
+        Update.setBounds(370, 130, 149, 29);
 
         Update2.setText("Delete");
         Update2.addActionListener(this::Update2ActionPerformed);
         jPanel4.add(Update2);
-        Update2.setBounds(420, 210, 149, 29);
+        Update2.setBounds(370, 170, 149, 29);
 
         Update1.setText("Clear");
         Update1.addActionListener(this::Update1ActionPerformed);
         jPanel4.add(Update1);
-        Update1.setBounds(420, 250, 149, 29);
+        Update1.setBounds(370, 210, 149, 29);
 
         jTabbedPane1.addTab("Add Item", jPanel4);
+
+        jPanel7.setBackground(new java.awt.Color(0, 0, 0));
 
         jTable3.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -394,6 +432,8 @@ public class AdminDashboard extends javax.swing.JFrame {
 
         jTabbedPane1.addTab("Recently Added", jPanel7);
 
+        jPanel8.setBackground(new java.awt.Color(0, 0, 0));
+
         jTable4.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null, null},
@@ -415,7 +455,7 @@ public class AdminDashboard extends javax.swing.JFrame {
             .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(jPanel8Layout.createSequentialGroup()
                     .addContainerGap()
-                    .addComponent(jScrollPane4)
+                    .addComponent(jScrollPane4, javax.swing.GroupLayout.DEFAULT_SIZE, 776, Short.MAX_VALUE)
                     .addContainerGap()))
         );
         jPanel8Layout.setVerticalGroup(
@@ -538,32 +578,32 @@ public class AdminDashboard extends javax.swing.JFrame {
     }//GEN-LAST:event_SearchActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        // Search functionality - uses Binary Search for ID, Linear Search for Name
+        // Search functionality
         String searchTerm = Search.getText().trim();
         
         if (searchTerm.isEmpty()) {
-            loadTableData(); // Reset to show all
+            loadTableData();
             return;
         }
         
-        // Try as ID first (Binary Search)
+        // Try as ID first
         try {
             int searchId = Integer.parseInt(searchTerm);
             GroceryItem found = controller.binarySearchById(searchId);
             
             if (found != null) {
                 displaySingleItem(found);
-                JOptionPane.showMessageDialog(this, "Found using Binary Search!");
+                JOptionPane.showMessageDialog(this, "Found 1 result!");
             } else {
                 JOptionPane.showMessageDialog(this, "Item not found!", "Search Result", JOptionPane.INFORMATION_MESSAGE);
             }
         } catch (NumberFormatException e) {
-            // Not a number, use Linear Search for Name
+            // Not a number, search by name
             java.util.ArrayList<GroceryItem> results = controller.linearSearchByNamePartial(searchTerm);
             
-            if (!results.isEmpty()) {
+            if (results.size() > 0) {
                 displaySearchResults(results);
-                JOptionPane.showMessageDialog(this, "Found " + results.size() + " result(s) using Linear Search!");
+                JOptionPane.showMessageDialog(this, "Found " + results.size() + " result(s)!");
             } else {
                 JOptionPane.showMessageDialog(this, "No items found!", "Search Result", JOptionPane.INFORMATION_MESSAGE);
             }
@@ -634,7 +674,7 @@ public class AdminDashboard extends javax.swing.JFrame {
     }//GEN-LAST:event_Update1ActionPerformed
 
     private void formWindowActivated(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowActivated
-    loadTableData();    // TODO add your handling code here:
+        // Empty - data is loaded in constructor, not on every focus
     }//GEN-LAST:event_formWindowActivated
 
     private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
@@ -644,14 +684,13 @@ public class AdminDashboard extends javax.swing.JFrame {
         JOptionPane.showMessageDialog(this, "Sorted by ID using Selection Sort!");
     }//GEN-LAST:event_jButton6ActionPerformed
     
-    // ==================== HELPER METHODS ====================
     
-    /**
-     * Helper to refresh the JTable data from the controller.
-     */
+    // These are helper methods used by the dashboard
+    
+    // Loads all items from controller into the table
     private void loadTableData() {
         DefaultTableModel model = (DefaultTableModel) jTable2.getModel();
-        model.setRowCount(0); // Clear old data
+        model.setRowCount(0);
         
         for (GroceryItem item : controller.getAllItems()) {
             Object[] row = {
@@ -665,9 +704,7 @@ public class AdminDashboard extends javax.swing.JFrame {
         }
     }
 
-    /**
-     * Helper to clear text fields after an action.
-     */
+    // Clears all input fields after an action
     private void clearFields() {
         txtItemId.setText("");
         txtName.setText("");
@@ -675,6 +712,8 @@ public class AdminDashboard extends javax.swing.JFrame {
         txtQuantity.setText("");
         txtPrice.setText("");
     }
+
+    // Fills input fields when user clicks on a table row
 
     private void jTable2MouseClicked(java.awt.event.MouseEvent evt) {
         int selectedRow = jTable2.getSelectedRow();
@@ -689,7 +728,7 @@ public class AdminDashboard extends javax.swing.JFrame {
         }
     }
     
-    // Helper to display a single item in the table (for search results)
+    // Shows a single item in the table after search
     private void displaySingleItem(GroceryItem item) {
         DefaultTableModel model = (DefaultTableModel) jTable2.getModel();
         model.setRowCount(0);
@@ -704,7 +743,7 @@ public class AdminDashboard extends javax.swing.JFrame {
         model.addRow(row);
     }
     
-    // Helper to display multiple search results
+    // Shows multiple items in the table after search
     private void displaySearchResults(java.util.ArrayList<GroceryItem> results) {
         DefaultTableModel model = (DefaultTableModel) jTable2.getModel();
         model.setRowCount(0);
@@ -721,7 +760,7 @@ public class AdminDashboard extends javax.swing.JFrame {
         }
     }
     
-    // Load Recently Added items from Queue into jTable3
+    // Loads recently added items from the queue into the table
     private void loadRecentlyAddedTable() {
         DefaultTableModel model = (DefaultTableModel) jTable3.getModel();
         model.setRowCount(0);
@@ -739,7 +778,7 @@ public class AdminDashboard extends javax.swing.JFrame {
         }
     }
     
-    // Load History items from Stack into jTable4
+    // Loads purchase history from the stack into the table
     private void loadHistoryTable() {
         DefaultTableModel model = (DefaultTableModel) jTable4.getModel();
         model.setRowCount(0);
@@ -812,6 +851,7 @@ public class AdminDashboard extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel6;
     private javax.swing.JPanel jPanel7;
     private javax.swing.JPanel jPanel8;
+    private javax.swing.JPanel jPanel9;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
@@ -821,7 +861,6 @@ public class AdminDashboard extends javax.swing.JFrame {
     private javax.swing.JTable jTable2;
     private javax.swing.JTable jTable3;
     private javax.swing.JTable jTable4;
-    private javax.swing.JTextField jTextField6;
     private javax.swing.JTextField txtCategory;
     private javax.swing.JTextField txtItemId;
     private javax.swing.JTextField txtName;
