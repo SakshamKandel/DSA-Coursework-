@@ -555,6 +555,18 @@ public class AdminDashboard extends javax.swing.JFrame {
             int quantity = Integer.parseInt(txtQuantity.getText().trim());
             double price = Double.parseDouble(txtPrice.getText().trim());
 
+            // Validate quantity is not negative
+            if (quantity < 0) {
+                JOptionPane.showMessageDialog(this, "Quantity cannot be negative.", "Validation Error", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+
+            // Validate price is not negative
+            if (price < 0) {
+                JOptionPane.showMessageDialog(this, "Price cannot be negative.", "Validation Error", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+
             // Create new item from the values
             GroceryItem newItem = new GroceryItem(id, name, category, quantity, price);
 
@@ -635,6 +647,18 @@ public class AdminDashboard extends javax.swing.JFrame {
             String category = txtCategory.getText().trim();
             int quantity = Integer.parseInt(txtQuantity.getText().trim());
             double price = Double.parseDouble(txtPrice.getText().trim());
+
+            // Validate quantity is not negative
+            if (quantity < 0) {
+                JOptionPane.showMessageDialog(this, "Quantity cannot be negative.", "Validation Error", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+
+            // Validate price is not negative
+            if (price < 0) {
+                JOptionPane.showMessageDialog(this, "Price cannot be negative.", "Validation Error", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
 
             GroceryItem updatedItem = new GroceryItem(id, name, category, quantity, price);
             controller.updateItem(updatedItem);

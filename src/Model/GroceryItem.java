@@ -16,6 +16,12 @@ public class GroceryItem {
     
     // Constructor to create a new item
     public GroceryItem(int itemId, String name, String category, int quantity, double price) {
+        if (quantity < 0) {
+            throw new IllegalArgumentException("Quantity cannot be negative.");
+        }
+        if (price < 0) {
+            throw new IllegalArgumentException("Price cannot be negative.");
+        }
         this.itemId = itemId;
         this.name = name;
         this.category = category;
